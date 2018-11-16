@@ -4,6 +4,8 @@ using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Threading.Tasks;
+
 
 namespace MyApplicationMVC.Models
 {
@@ -32,7 +34,7 @@ namespace MyApplicationMVC.Models
                     strReplace = strReplace.Replace(replaceableChars[i], "");
                 }
 
-                /*string[] */words = strReplace.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                words = strReplace.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
                 match = match.NextMatch();
 
@@ -42,15 +44,20 @@ namespace MyApplicationMVC.Models
 
         }
         // Добавить прокси для обхода блокировки лимита запросов на проверку ip.
-        public object ShowIpInfo(string ip)
+        public async Task<object> ShowIpInfo(string ip)
         {
+            string str = "null";
+            if (ip != null)
+            {
                 HttpClient client = new HttpClient();
-                var json = client.GetStringAsync("http://ip-api.com/json/" + ip +
-                                                    "?fields=status,message,country,city,org").Result;
+                var json = await client.GetStringAsync("http://ip-api.com/json/" + ip +
+                                                    "?fields=status,message,country,city,org");
                 var ipinf = JsonConvert.DeserializeObject<IpInfo>(json);
                 ipinf.ip = ip;
 
                 return ipinf;
+            }
+            return str;
         }
 
         public List<LogStringParts> ReadFile(string pathLogFile)
@@ -60,13 +67,13 @@ namespace MyApplicationMVC.Models
             using (StreamReader sr = new StreamReader(pathLogFile, System.Text.Encoding.Default))
                 {
                     Tools tools = new Tools();
-                    //int check = 0;
-                    string line;
+                //int check = 0;
+                string line;
                     while ((line = sr.ReadLine()) != null)
                     {
-                        //if (check == 3)
-                        //    break;
-                   arrWords = tools.RegexMethod(line);
+                    //if (check == 3)
+                    //    break;
+                    arrWords = tools.RegexMethod(line);
 
                     if (arrWords != null)
                         listLogParts.Add(new LogStringParts()
@@ -83,8 +90,8 @@ namespace MyApplicationMVC.Models
 
                         id++;
                     }
-                     // check++;
-                }
+                //check++;
+            }
             return listLogParts;
         }
     }

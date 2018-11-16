@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using MyApplicationMVC.Models;
@@ -71,11 +72,11 @@ namespace MyApplicationMVC.Controllers
             return View();
         }
 
-        public ActionResult IpInfo(string ip)
+        public async Task<ActionResult> IpInfo(string ip)
         {
             Tools tools = new Tools();
-            object buffer = tools.ShowIpInfo(ip);
-            ViewBag.Ip = ip;
+            object buffer = await tools.ShowIpInfo(ip);
+            //ViewBag.Ip = ip;
 
             return View(buffer);
         }
