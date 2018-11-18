@@ -34,17 +34,17 @@ namespace MyApplicationMVC.Controllers
             return View();
         }
 
-        //private bool isValidContentType(string contentType)
-        //{
-        //    return contentType.Equals("string");
-        //}
+        private bool isValidContentType(string contentType)
+        {
+            return contentType.Equals("application/octet-stream");
+        }
 
         [HttpPost]
         public ActionResult Upload(HttpPostedFileBase upload)
         {
             Tools tools = new Tools();
 
-            if (upload == null /*|| (!isValidContentType(upload.ContentType))*/)
+            if (upload == null || (!isValidContentType(upload.ContentType)))
             {
                 ViewBag.Check = "error";
 
@@ -53,7 +53,6 @@ namespace MyApplicationMVC.Controllers
 
             if (upload.ContentLength > 0)
             {
-
                 var fileName = Path.GetFileName(upload.FileName);
                 var path = Path.Combine(Server.MapPath("LogFile/"), fileName);
                 upload.SaveAs(path);

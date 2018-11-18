@@ -7,8 +7,8 @@
 <h2>IpInfo</h2>
 
 <div class="row">
-    <div class="col-md-6">
-        <table class="table">
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover table-condensed" style="background:RGBA(34,34,34,0.7)">
             <tbody>
                 <tr style="color:aqua;">
                     <th>Ip </th>
@@ -19,7 +19,7 @@
                 </tr>
                 @if (Model != null)
                 {
-                <tr style="background:RGBA(34,34,34,0.7); color:aquamarine">
+                <tr>
                     <td><p>@Model.ip</p></td>
                     <td><p>@Model.status</p></td>
                     <td><p>@Model.country</p></td>
