@@ -1,0 +1,17 @@
+﻿@model MyApplicationMVC.Models.IpInfo
+@{
+    ViewBag.Title = "TooltipIpInfo";
+}
+
+<div class="table-hover" style="background-color:cadetblue; border: 5px solid rgb(34, 34, 34);">
+    <h3 style="color: palegreen">Ip info</h3>
+    @if (Model != null)
+    {
+        <p><label>Ip : @Model.ip</label></p>
+        <p><label>Status request : @Model.status</label></p>
+        <p><label>Country : @Model.country</label></p>
+        <p><label>City : @Model.city</label></p>
+        <p><label>Provider : @Model.org</label></p>
+    }
+</div>
+

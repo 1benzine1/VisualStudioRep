@@ -1,9 +1,11 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
-    background-image: url(https://html-templates.info/images/pages/140520040122.jpg);
-    background-position:top;
-    background-repeat:no-repeat;
+    background-image: url(Images/background.jpg);
+    background-position: top;
+    background-repeat: inherit;
+    background-attachment: fixed;
+    background-size:auto;
 }
 
 /* Set padding to keep content from hitting the edges */

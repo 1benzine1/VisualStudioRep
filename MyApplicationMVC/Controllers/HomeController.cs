@@ -71,13 +71,29 @@ namespace MyApplicationMVC.Controllers
             return View();
         }
 
-        public async Task<ActionResult> IpInfo(string ip)
+        public ActionResult IpInfo(string ip)
         {
             Tools tools = new Tools();
-            object buffer = await tools.ShowIpInfo(ip);
-            //ViewBag.Ip = ip;
+            var buffer = tools.ShowIpInfo(ip);
 
             return View(buffer);
+        }
+        //public async Task<ActionResult> TooltipIpInfo(string ip)
+        //{
+        //    Tools tools = new Tools();
+        //    object buffer = await tools.ShowIpInfo(ip);
+
+        //    return PartialView(buffer);
+        //}
+
+
+        public ActionResult TooltipIpInfo(string ip)
+        {
+            Tools tools = new Tools();
+            var buffer = tools.ShowIpInfo(ip);
+      
+            return PartialView(buffer);
+
         }
     }
 }

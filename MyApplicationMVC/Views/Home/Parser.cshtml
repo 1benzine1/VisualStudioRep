@@ -2,15 +2,17 @@
 @{
     ViewBag.Title = "Parser";
 }
-@*@model MyApplicationMVC.Models.Tools;*@
+
 <!-- jQuery -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+
 <script>
     $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
-       // window.bufferField = @*@ViewBag*@; <- глобальная перменная JS. 
+       // window.bufferField = @*@ViewBag*@; <- глобальная перменная JS.
     });
 </script>
 
@@ -26,41 +28,74 @@
 
         if (ViewBag.Check != null)
         {
-            <script language='javascript' type='text/javascript'>alert('Error! File not found or not txt format.');</script>
+            <script language='javascript' type='text/javascript'>alert('Error! File not found or is not txt format.');</script>
         }
     }
 </div>
 
-<div class="row">
-    <div class="table-responsive">
-        <table class="table table-bordered table-hover table-condensed" style="background:RGBA(34,34,34,0.7)">
-            <tr style="color:aqua;">
-                <th>№ </th>
-                <th>IP </th>
-                <th>DateTime </th>
-                <th>TimeZone </th>
-                <th>TypeRequest </th>
-                <th>StatusCode </th>
-                <th>FileDownload </th>
-                <th>SizeTransmitDate </th>
-            </tr>
 
-            @if (ViewBag.Strings != null)
-            {
-                foreach (var el in ViewBag.Strings)
-                {
-                <tr>
-                   <td><p>@el.Id</p></td>
-                   <td><p><a href="/Home/IpInfo?ip=@el.Ip">@el.Ip</a></p></td>
-                   <td><p>@el.DateTime</p></td>
-                   <td><p>@el.TimeZone</p></td>
-                   <td><p>@el.TypeRequest</p></td>
-                   <td><p>@el.StatusCode</p></td>
-                   <td><p>@el.FileDownload</p></td>
-                   <td><p>@el.SizeTransmitDate</p></td>
+
+<div class="container">
+    <div class="row">
+       <div class="table-responsive">
+            <table class="table table-bordered table-hover table-condensed" style="background:RGBA(34,34,34,0.7)">
+                <tr style="color:aqua;">
+                    <th>№ </th>
+                    <th>IP </th>
+                    <th>DateTime </th>
+                    <th>TimeZone </th>
+                    <th>TypeRequest </th>
+                    <th>StatusCode </th>
+                    <th>FileDownload </th>
+                    <th>SizeTransmitDate </th>
                 </tr>
+
+                @if (ViewBag.Strings != null)
+                {
+                    foreach (var el in ViewBag.Strings)
+                    {
+                        <tr>
+                            <td><p>@el.Id</p></td>
+                            <td><a class ="hover" id="@el.Ip" href="/Home/IpInfo?ip=@el.Ip"  onmouseover="mouseOver(@*'@el.Ip'*@)" onmouseout="">@el.Ip</a></td>
+                            <td><p>@el.DateTime</p></td>
+                            <td><p>@el.TimeZone</p></td>
+                            <td><p>@el.TypeRequest</p></td>
+                            <td><p>@el.StatusCode</p></td>
+                            <td><p>@el.FileDownload</p></td>
+                            <td><p>@el.SizeTransmitDate</p></td>
+                        </tr>
+                    }
                 }
-            }
-        </table>
-    </div>
+
+            </table>
+        </div>
+   </div>
 </div>
+
+<script>
+    function mouseOver()
+    {
+        $(document).ready(function () {
+            $('.hover').tooltip({
+                title: showIp,
+                html: true
+            });
+            function showIp() {
+                var show_ip = '';
+                var element = $(this);
+                var ip = element.attr("id");
+
+                $.ajax({
+                    url: "/Home/TooltipIpInfo?ip=" + $("id"),
+                    method: "POST",
+                    async: false,
+                    data: { ip: ip },
+                    success: function (data) {
+                        show_ip = data;
+                    }
+                });
+                return show_ip;
+            }
+        });
+    }
+</script>

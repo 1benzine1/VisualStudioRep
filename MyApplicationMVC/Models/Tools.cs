@@ -44,14 +44,30 @@ namespace MyApplicationMVC.Models
 
         }
         // Добавить прокси для обхода блокировки лимита запросов на проверку ip.
-        public async Task<object> ShowIpInfo(string ip)
+        //public async Task<object> ShowIpInfo(string ip)
+        //{
+        //    string str = "null";
+        //    if (ip != null)
+        //    {
+        //        HttpClient client = new HttpClient();
+        //        var json = await client.GetStringAsync("http://ip-api.com/json/" + ip +
+        //                                            "?fields=status,message,country,city,org");
+        //        var ipinf = JsonConvert.DeserializeObject<IpInfo>(json);
+        //        ipinf.ip = ip;
+
+        //        return ipinf;
+        //    }
+        //    return str;
+        //}
+
+        public object ShowIpInfo(string ip)
         {
             string str = "null";
             if (ip != null)
             {
                 HttpClient client = new HttpClient();
-                var json = await client.GetStringAsync("http://ip-api.com/json/" + ip +
-                                                    "?fields=status,message,country,city,org");
+                var json =  client.GetStringAsync("http://ip-api.com/json/" + ip +
+                                                    "?fields=status,message,country,city,org").Result;
                 var ipinf = JsonConvert.DeserializeObject<IpInfo>(json);
                 ipinf.ip = ip;
 
@@ -68,7 +84,7 @@ namespace MyApplicationMVC.Models
                 {
                     Tools tools = new Tools();
                 //int check = 0;
-                string line;
+                    string line;
                     while ((line = sr.ReadLine()) != null)
                     {
                     //if (check == 3)
